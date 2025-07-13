@@ -1,0 +1,186 @@
+PEMS04:
+  num_nodes: 307
+  in_steps: 12
+  out_steps: 12
+
+  train_size: 0.6
+  val_size: 0.2
+
+  time_of_day: True
+  day_of_week: True
+
+  lr: 0.001
+  weight_decay: 0.0005
+  milestones: [15, 30, 50]
+  lr_decay_rate: 0.1
+  batch_size: 16
+  max_epochs: 300
+  early_stop: 20
+  use_cl: False
+  cl_step_size: 2500
+  model_args:
+    num_nodes: 307
+    in_steps: 12
+    out_steps: 12
+    steps_per_day: 288
+    steps_per_week: 7
+    input_dim: 3
+    output_dim: 1
+    input_embedding_dim: 24
+    tod_embedding_dim: 24
+    dow_embedding_dim: 24
+    feed_forward_dim: 256
+    num_heads: 4
+    num_layers_t: 1
+    num_layers_c: 1
+    num_layers_s: 1
+    num_layers_mlp: 2
+    dropout: 0.1
+    adaptive_embedding_dim: 80
+    node_dim: 64
+    use_temporal_heterogeneity: true
+    use_spatial_heterogeneity: true
+    use_temporal_cross: true
+    use_spatial_cross: true
+    use_mixed_proj: True
+
+PEMS03:
+  num_nodes: 358
+  in_steps: 12
+  out_steps: 12
+
+  train_size: 0.6
+  val_size: 0.2
+
+  time_of_day: True
+  day_of_week: True
+  
+  lr: 0.001
+  weight_decay: 0.0005
+  milestones: [15, 30, 40]
+  lr_decay_rate: 0.1
+  batch_size: 16
+  max_epochs: 300
+  early_stop: 20
+  use_cl: False
+  cl_step_size: 2500
+
+  model_args:
+    num_nodes: 358
+    in_steps: 12
+    out_steps: 12
+    steps_per_day: 288
+    steps_per_week: 7
+    input_dim: 3
+    output_dim: 1
+    input_embedding_dim: 24
+    tod_embedding_dim: 24
+    dow_embedding_dim: 24
+    feed_forward_dim: 256
+    num_heads: 4
+    num_layers_t: 1
+    num_layers_c: 1
+    num_layers_s: 1
+    num_layers_mlp: 2
+    dropout: 0.1
+    adaptive_embedding_dim: 80
+    node_dim: 64
+    use_temporal_heterogeneity: true
+    use_spatial_heterogeneity: true
+    use_temporal_cross: true
+    use_spatial_cross: true
+    use_mixed_proj: True
+
+PEMS08:
+  num_nodes: 170
+  in_steps: 12
+  out_steps: 12
+
+  train_size: 0.6
+  val_size: 0.2
+
+  time_of_day: True
+  day_of_week: True
+  
+  lr: 0.001
+  weight_decay: 0.0015
+  milestones: [25, 45, 65]
+  lr_decay_rate: 0.1
+  batch_size: 16
+  max_epochs: 300
+  early_stop: 30
+  use_cl: False
+  cl_step_size: 2500
+
+  model_args:
+    num_nodes: 170
+    in_steps: 12
+    out_steps: 12
+    steps_per_day: 288
+    steps_per_week: 7
+    input_dim: 3
+    output_dim: 1
+    input_embedding_dim: 24
+    tod_embedding_dim: 24
+    dow_embedding_dim: 24
+    feed_forward_dim: 256
+    num_heads: 4
+    num_layers_t: 1
+    num_layers_c: 1
+    num_layers_s: 1
+    num_layers_mlp: 2
+    dropout: 0.1
+    adaptive_embedding_dim: 80
+    node_dim: 64
+    use_temporal_heterogeneity: true
+    use_spatial_heterogeneity: true
+    use_temporal_cross: true
+    use_spatial_cross: true
+    use_mixed_proj: True
+
+PEMS07:
+  num_nodes: 883
+  in_steps: 12
+  out_steps: 12
+
+  train_size: 0.6
+  val_size: 0.2
+
+  time_of_day: True
+  day_of_week: True
+
+  lr: 0.001
+  weight_decay: 0.001
+  milestones: [15, 35, 50]
+  lr_decay_rate: 0.1
+  batch_size: 16
+  max_epochs: 80
+  early_stop: 20
+  use_cl: False
+  cl_step_size: 2500
+
+  model_args:
+    num_nodes: 883
+    in_steps: 12
+    out_steps: 12
+    steps_per_day: 288
+    steps_per_week: 7
+    input_dim: 3
+    output_dim: 1
+    input_embedding_dim: 24
+    tod_embedding_dim: 24
+    dow_embedding_dim: 24
+    feed_forward_dim: 256
+    num_heads: 4
+    num_layers_t: 1
+    num_layers_c: 1
+    num_layers_s: 1
+    num_layers_mlp: 2
+    dropout: 0.1
+    adaptive_embedding_dim: 80
+    node_dim: 64
+    use_temporal_heterogeneity: true
+    use_spatial_heterogeneity: true
+    use_temporal_cross: true
+    use_spatial_cross: true
+    use_mixed_proj: True
