@@ -6,11 +6,11 @@ Code for the paper "STHDformer: A Novel Dual-Branch Transformer for Traffic Flow
 
 ## STHDformer
 
-![STHDformer]('./result/4.jpg')
+![STHDformer](result/Fig4.jpg)
 
 ## Results
 
-![Results]('./result/10.jpg')
+![Results](result/Fig10.jpg)
 
 ## Train
 
