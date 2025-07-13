@@ -1,0 +1,225 @@
+PEMS04
+Trainset:	x-(10181, 12, 307, 3)	y-(10181, 12, 307, 1)
+Valset:  	x-(3394, 12, 307, 3)  	y-(3394, 12, 307, 1)
+Testset:	x-(3394, 12, 307, 3)	y-(3394, 12, 307, 1)
+
+Random seed = 1
+--------- STHDformer ---------
+{
+    "num_nodes": 307,
+    "in_steps": 12,
+    "out_steps": 12,
+    "train_size": 0.6,
+    "val_size": 0.2,
+    "time_of_day": true,
+    "day_of_week": true,
+    "lr": 0.001,
+    "weight_decay": 0.0005,
+    "milestones": [
+        15,
+        30,
+        50
+    ],
+    "lr_decay_rate": 0.1,
+    "batch_size": 16,
+    "max_epochs": 300,
+    "early_stop": 20,
+    "use_cl": false,
+    "cl_step_size": 2500,
+    "model_args": {
+        "num_nodes": 307,
+        "in_steps": 12,
+        "out_steps": 12,
+        "steps_per_day": 288,
+        "steps_per_week": 7,
+        "input_dim": 3,
+        "output_dim": 1,
+        "input_embedding_dim": 24,
+        "tod_embedding_dim": 24,
+        "dow_embedding_dim": 24,
+        "feed_forward_dim": 256,
+        "num_heads": 4,
+        "num_layers_t": 1,
+        "num_layers_c": 1,
+        "num_layers_s": 1,
+        "num_layers_mlp": 2,
+        "dropout": 0.1,
+        "adaptive_embedding_dim": 80,
+        "node_dim": 64,
+        "use_temporal_heterogeneity": false,
+        "use_spatial_heterogeneity": false,
+        "use_temporal_cross": true,
+        "use_spatial_cross": true,
+        "use_mixed_proj": true
+    }
+}
+===============================================================================================
+Layer (type:depth-idx)                        Output Shape              Param #
+===============================================================================================
+STHDformer                                    [16, 12, 307, 1]          271,464
+├─Linear: 1-1                                 [16, 12, 307, 24]         96
+├─Embedding: 1-2                              [16, 12, 307, 24]         6,912
+├─Embedding: 1-3                              [16, 12, 307, 24]         168
+├─ModuleList: 1-9                             --                        (recursive)
+│    └─SelfAttentionLayer: 2-1                [16, 12, 307, 152]        23,256
+│    │    └─AttentionLayer: 3-1               [16, 307, 12, 152]        93,024
+│    │    └─Dropout: 3-2                      [16, 307, 12, 152]        --
+│    │    └─LayerNorm: 3-3                    [16, 307, 12, 152]        304
+│    │    └─Sequential: 3-4                   [16, 307, 12, 152]        78,232
+│    │    └─Dropout: 3-5                      [16, 307, 12, 152]        --
+│    │    └─LayerNorm: 3-6                    [16, 307, 12, 152]        304
+├─ModuleList: 1-5                             --                        --
+│    └─TemporalTCNLayer: 2-2                  [16, 12, 307, 152]        --
+│    │    └─Conv1d: 3-7                       [4912, 152, 12]           69,464
+│    │    └─ReLU: 3-8                         [4912, 152, 12]           --
+│    │    └─Dropout: 3-9                      [4912, 152, 12]           --
+│    │    └─LayerNorm: 3-10                   [4912, 12, 152]           304
+├─ModuleList: 1-11                            --                        (recursive)
+│    └─Cross_SelfAttentionLayer: 2-3          [16, 12, 307, 152]        --
+│    │    └─Cross_AttentionLayer: 3-11        [16, 307, 12, 152]        93,024
+│    │    └─Dropout: 3-12                     [16, 307, 12, 152]        --
+│    │    └─LayerNorm: 3-13                   [16, 307, 12, 152]        304
+│    │    └─Sequential: 3-14                  [16, 307, 12, 152]        78,232
+│    │    └─Dropout: 3-15                     [16, 307, 12, 152]        --
+│    │    └─LayerNorm: 3-16                   [16, 307, 12, 152]        304
+├─Dual_graph: 1-7                             [16, 12, 307, 128]        --
+│    └─Graph_projection: 2-4                  [1, 307, 64]              --
+│    │    └─Linear: 3-17                      [1, 307, 64]              19,712
+│    │    └─ReLU: 3-18                        [1, 307, 64]              --
+│    │    └─Dropout: 3-19                     [1, 307, 64]              --
+│    │    └─Linear: 3-20                      [1, 307, 64]              4,160
+│    └─Graph_projection: 2-5                  [1, 307, 64]              --
+│    │    └─Linear: 3-21                      [1, 307, 64]              19,712
+│    │    └─ReLU: 3-22                        [1, 307, 64]              --
+│    │    └─Dropout: 3-23                     [1, 307, 64]              --
+│    │    └─Linear: 3-24                      [1, 307, 64]              4,160
+├─Fusion_Model: 1-8                           [16, 12, 307, 152]        --
+│    └─Sequential: 2-6                        [16, 12, 307, 80]         --
+│    │    └─MLP: 3-25                         [16, 12, 307, 208]        86,944
+│    │    └─MLP: 3-26                         [16, 12, 307, 208]        86,944
+│    │    └─Linear: 3-27                      [16, 12, 307, 80]         16,720
+├─ModuleList: 1-9                             --                        (recursive)
+│    └─SelfAttentionLayer: 2-7                [16, 12, 307, 152]        (recursive)
+│    │    └─Sequential: 3-28                  [16, 12, 307, 152]        23,256
+│    │    └─AttentionLayer: 3-29              [16, 12, 307, 152]        (recursive)
+│    │    └─Dropout: 3-30                     [16, 12, 307, 152]        --
+│    │    └─LayerNorm: 3-31                   [16, 12, 307, 152]        (recursive)
+│    │    └─Sequential: 3-32                  [16, 12, 307, 152]        (recursive)
+│    │    └─Dropout: 3-33                     [16, 12, 307, 152]        --
+│    │    └─LayerNorm: 3-34                   [16, 12, 307, 152]        (recursive)
+├─ModuleList: 1-10                            --                        --
+│    └─SpatialGATLayer: 2-8                   [16, 12, 307, 152]        76
+│    │    └─Linear: 3-35                      [192, 307, 152]           23,256
+│    │    └─LeakyReLU: 3-36                   [192, 4, 307, 307]        --
+│    │    └─Dropout: 3-37                     [192, 4, 307, 307]        --
+├─ModuleList: 1-11                            --                        (recursive)
+│    └─Cross_SelfAttentionLayer: 2-9          [16, 12, 307, 152]        (recursive)
+│    │    └─Cross_AttentionLayer: 3-38        [16, 12, 307, 152]        (recursive)
+│    │    └─Dropout: 3-39                     [16, 12, 307, 152]        --
+│    │    └─LayerNorm: 3-40                   [16, 12, 307, 152]        (recursive)
+│    │    └─Sequential: 3-41                  [16, 12, 307, 152]        (recursive)
+│    │    └─Dropout: 3-42                     [16, 12, 307, 152]        --
+│    │    └─LayerNorm: 3-43                   [16, 12, 307, 152]        (recursive)
+├─Linear: 1-12                                [16, 307, 12]             21,900
+===============================================================================================
+Total params: 1,022,232
+Trainable params: 1,022,232
+Non-trainable params: 0
+Total mult-adds (G): 4.12
+===============================================================================================
+Input size (MB): 0.71
+Forward/backward pass size (MB): 3241.61
+Params size (MB): 2.91
+Estimated Total Size (MB): 3245.22
+===============================================================================================
+
+Loss: HuberLoss
+
+2025-07-01 18:07:21.622949 Epoch 1  	Train Loss = 30.15889 Val Loss = 23.04694
+2025-07-01 18:12:35.369856 Epoch 2  	Train Loss = 22.50849 Val Loss = 23.62293
+2025-07-01 18:17:47.707996 Epoch 3  	Train Loss = 21.00510 Val Loss = 21.61553
+2025-07-01 18:23:00.986977 Epoch 4  	Train Loss = 20.13461 Val Loss = 20.79761
+2025-07-01 18:28:14.087434 Epoch 5  	Train Loss = 19.47883 Val Loss = 20.35704
+2025-07-01 18:33:26.823270 Epoch 6  	Train Loss = 19.20624 Val Loss = 20.38072
+2025-07-01 18:38:39.164594 Epoch 7  	Train Loss = 18.96117 Val Loss = 20.12819
+2025-07-01 18:43:51.288591 Epoch 8  	Train Loss = 18.72796 Val Loss = 19.70621
+2025-07-01 18:49:03.625427 Epoch 9  	Train Loss = 18.63023 Val Loss = 19.42131
+2025-07-01 18:54:16.472025 Epoch 10  	Train Loss = 18.47095 Val Loss = 19.04241
+2025-07-01 18:59:27.940153 Epoch 11  	Train Loss = 18.32711 Val Loss = 21.97028
+2025-07-01 19:04:40.087986 Epoch 12  	Train Loss = 18.26471 Val Loss = 20.76157
+2025-07-01 19:09:51.902696 Epoch 13  	Train Loss = 18.10467 Val Loss = 21.17076
+2025-07-01 19:15:04.976812 Epoch 14  	Train Loss = 17.95445 Val Loss = 21.53603
+2025-07-01 19:20:17.410918 Epoch 15  	Train Loss = 18.02428 Val Loss = 20.39306
+2025-07-01 19:25:29.223076 Epoch 16  	Train Loss = 17.07905 Val Loss = 19.69192
+2025-07-01 19:30:41.410911 Epoch 17  	Train Loss = 16.97656 Val Loss = 19.51288
+2025-07-01 19:35:54.186572 Epoch 18  	Train Loss = 16.93893 Val Loss = 19.20162
+2025-07-01 19:41:07.056445 Epoch 19  	Train Loss = 16.91194 Val Loss = 19.44795
+2025-07-01 19:46:19.745401 Epoch 20  	Train Loss = 16.89112 Val Loss = 19.30912
+2025-07-01 19:51:31.559630 Epoch 21  	Train Loss = 16.86145 Val Loss = 19.31483
+2025-07-01 19:56:44.058030 Epoch 22  	Train Loss = 16.83738 Val Loss = 19.14591
+2025-07-01 20:01:57.331283 Epoch 23  	Train Loss = 16.80795 Val Loss = 19.03757
+2025-07-01 20:07:08.669885 Epoch 24  	Train Loss = 16.78668 Val Loss = 18.89876
+2025-07-01 20:12:20.501807 Epoch 25  	Train Loss = 16.76948 Val Loss = 18.80436
+2025-07-01 20:17:32.212141 Epoch 26  	Train Loss = 16.74939 Val Loss = 18.69759
+2025-07-01 20:22:44.562004 Epoch 27  	Train Loss = 16.72447 Val Loss = 19.11616
+2025-07-01 20:27:57.073901 Epoch 28  	Train Loss = 16.71505 Val Loss = 18.78509
+2025-07-01 20:33:08.474579 Epoch 29  	Train Loss = 16.69093 Val Loss = 18.74511
+2025-07-01 20:38:19.729904 Epoch 30  	Train Loss = 16.67695 Val Loss = 18.47172
+2025-07-01 20:43:31.427831 Epoch 31  	Train Loss = 16.57136 Val Loss = 18.47752
+2025-07-01 20:48:43.851312 Epoch 32  	Train Loss = 16.56306 Val Loss = 18.50281
+2025-07-01 20:53:55.827747 Epoch 33  	Train Loss = 16.56157 Val Loss = 18.51247
+2025-07-01 20:59:07.798144 Epoch 34  	Train Loss = 16.55425 Val Loss = 18.44011
+2025-07-01 21:04:19.394172 Epoch 35  	Train Loss = 16.55579 Val Loss = 18.37260
+2025-07-01 21:09:32.190864 Epoch 36  	Train Loss = 16.55231 Val Loss = 18.34434
+2025-07-01 21:14:43.818505 Epoch 37  	Train Loss = 16.54292 Val Loss = 18.29424
+2025-07-01 21:19:56.026787 Epoch 38  	Train Loss = 16.54488 Val Loss = 18.30787
+2025-07-01 21:24:51.813387 Epoch 39  	Train Loss = 16.53964 Val Loss = 18.25427
+2025-07-01 21:28:49.255574 Epoch 40  	Train Loss = 16.53957 Val Loss = 18.26205
+2025-07-01 21:32:47.183998 Epoch 41  	Train Loss = 16.53395 Val Loss = 18.30765
+2025-07-01 21:36:44.496642 Epoch 42  	Train Loss = 16.53941 Val Loss = 18.26013
+2025-07-01 21:39:55.908092 Epoch 43  	Train Loss = 16.52955 Val Loss = 18.24731
+2025-07-01 21:42:36.395241 Epoch 44  	Train Loss = 16.52801 Val Loss = 18.28292
+2025-07-01 21:45:16.813561 Epoch 45  	Train Loss = 16.52841 Val Loss = 18.17872
+2025-07-01 21:47:57.044229 Epoch 46  	Train Loss = 16.52323 Val Loss = 18.12063
+2025-07-01 21:50:36.907994 Epoch 47  	Train Loss = 16.52647 Val Loss = 18.18058
+2025-07-01 21:53:16.837629 Epoch 48  	Train Loss = 16.51964 Val Loss = 18.17590
+2025-07-01 21:55:56.995736 Epoch 49  	Train Loss = 16.52109 Val Loss = 18.14072
+2025-07-01 21:58:37.723053 Epoch 50  	Train Loss = 16.51521 Val Loss = 18.18502
+2025-07-01 22:01:18.194810 Epoch 51  	Train Loss = 16.50087 Val Loss = 18.19547
+2025-07-01 22:03:58.157648 Epoch 52  	Train Loss = 16.50144 Val Loss = 18.19602
+2025-07-01 22:06:37.877639 Epoch 53  	Train Loss = 16.50058 Val Loss = 18.14437
+2025-07-01 22:09:18.848132 Epoch 54  	Train Loss = 16.49793 Val Loss = 18.16833
+2025-07-01 22:11:59.474055 Epoch 55  	Train Loss = 16.49928 Val Loss = 18.18208
+2025-07-01 22:14:39.803227 Epoch 56  	Train Loss = 16.49034 Val Loss = 18.16785
+2025-07-01 22:17:20.639749 Epoch 57  	Train Loss = 16.50197 Val Loss = 18.18504
+2025-07-01 22:20:01.162796 Epoch 58  	Train Loss = 16.49648 Val Loss = 18.17860
+2025-07-01 22:22:42.146906 Epoch 59  	Train Loss = 16.49386 Val Loss = 18.19749
+2025-07-01 22:25:22.497270 Epoch 60  	Train Loss = 16.50163 Val Loss = 18.20088
+2025-07-01 22:28:03.209419 Epoch 61  	Train Loss = 16.50180 Val Loss = 18.18149
+2025-07-01 22:30:43.339546 Epoch 62  	Train Loss = 16.49719 Val Loss = 18.15630
+2025-07-01 22:33:23.912278 Epoch 63  	Train Loss = 16.50211 Val Loss = 18.18337
+2025-07-01 22:36:04.795183 Epoch 64  	Train Loss = 16.49296 Val Loss = 18.14827
+2025-07-01 22:38:45.477821 Epoch 65  	Train Loss = 16.49904 Val Loss = 18.19717
+2025-07-01 22:41:25.923186 Epoch 66  	Train Loss = 16.50302 Val Loss = 18.18392
+Early stopping at epoch: 66
+Best at epoch 46:
+Train Loss = 16.52323
+Train RMSE = 28.33918, MAE = 17.33192, MAPE = 12.13528
+Val Loss = 18.12063
+Val RMSE = 30.81881, MAE = 18.83438, MAPE = 11.90042
+Saved Model: ../saved_models/STHDformer-PEMS04-2025-07-01-18-02-01.pt
+--------- Test ---------
+All Steps RMSE = 30.26725, MAE = 18.77869, MAPE = 12.09835
+Step 1 RMSE = 27.07795, MAE = 16.84953, MAPE = 11.08973
+Step 2 RMSE = 28.01535, MAE = 17.33138, MAPE = 11.38910
+Step 3 RMSE = 28.69944, MAE = 17.69425, MAPE = 11.59745
+Step 4 RMSE = 29.24895, MAE = 17.99281, MAPE = 11.73857
+Step 5 RMSE = 29.72807, MAE = 18.28133, MAPE = 11.85861
+Step 6 RMSE = 30.14491, MAE = 18.54843, MAPE = 11.97275
+Step 7 RMSE = 30.56856, MAE = 18.85595, MAPE = 12.13466
+Step 8 RMSE = 30.99515, MAE = 19.20802, MAPE = 12.29527
+Step 9 RMSE = 31.37743, MAE = 19.52977, MAPE = 12.45243
+Step 10 RMSE = 31.80978, MAE = 19.92691, MAPE = 12.64125
+Step 11 RMSE = 32.23026, MAE = 20.32654, MAPE = 12.87994
+Step 12 RMSE = 32.75968, MAE = 20.79900, MAPE = 13.13016
+Inference time: 82.62 s
