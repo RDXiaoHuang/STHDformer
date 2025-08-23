@@ -2,7 +2,7 @@
 
 ## Description
 
-Code for the paper "STHDformer: A Novel Dual-Branch Transformer for Traffic Flow Forecasting". 
+Code for the paper "STHDformer: A Novel Dual-Branch Transformer for Traffic Flow Forecasting". The manuscript has been submitted to IEEE Transactions on Intelligent Transportation Systems (TITS) for review.
 
 ## STHDformer
 
