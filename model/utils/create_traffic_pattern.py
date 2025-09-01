@@ -47,7 +47,7 @@ class PatternGenerator:
         return km.cluster_centers_ 
 
     def _generate_and_save_pattern(self):
-        pkl_path = os.path.join(self.data_dir, 'pattern_key_5.pkl')
+        pkl_path = os.path.join(self.data_dir, 'pattern_key.pkl')
         
         if os.path.exists(pkl_path):
             print(f"Pattern keys already exist at {pkl_path}")
