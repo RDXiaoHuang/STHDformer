@@ -64,7 +64,7 @@ class PatternGenerator:
 
 if __name__ == "__main__":
     config = {
-        'data_dir': './data/PEMS08',
+        'data_dir': '../data/PEMS08',
         'time_intervals': 300,
         'cand_key_days': 14,
         's_attn_size': 3,
